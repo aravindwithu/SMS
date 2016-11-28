@@ -11,7 +11,7 @@ std_status := null;
 class_results := null;
 v_sid := 'B001';
 status := 0;
-getStudentAndClasses(v_sid, std_lastname, std_status, class_results, status);
+get_Student_And_Classes(v_sid, std_lastname, std_status, class_results, status);
 if status = 1 then
 dbms_output.put_line(v_sid || ',' || std_lastname || ',' || std_status);
 else

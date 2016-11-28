@@ -59,16 +59,16 @@ public class SMS {
 	        //-----------------------------------------------------------
 	        //5.	        
 	           
-	        ArrayList<Prerequisites> resultList = new ArrayList<Prerequisites>();
+	        /*ArrayList<Prerequisites> resultList = new ArrayList<Prerequisites>();
 	        
-	        resultList = sql.getPrerequisites("cs", 432);
+	        resultList = sql.getPrerequisites("CS", 432);
 	        
 	        if(resultList != null)
 	        {
 	        	for(Prerequisites preReq : resultList){
-		        	System.out.println(preReq.course_count + ", "+preReq.pre_course_no);
+		        	System.out.println(preReq.course_count + ", "+preReq.course_code);
 		        }
-	        }
+	        }*/
 	        
 	        //-----------------------------------------------------------
 	        //6.

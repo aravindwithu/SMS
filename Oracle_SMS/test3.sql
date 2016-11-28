@@ -9,6 +9,8 @@ CREATE TABLE tempPrerequisites (
      PRIMARY KEY (Course_Count)
 );
 
+select * from tempPrerequisites
+
 CREATE SEQUENCE Course_Count_Seq START WITH 1 increment by 1;
 
 create trigger trg_Course_Count
@@ -35,12 +37,12 @@ Begin
 cr_dept_code := 'CS';
 cr_course_no := 432;
 PrerequisiteData := null;
-get_Prerequisite_Courses(cr_dept_code, cr_course_no, PrerequisiteData);
+getPrerequisiteCourses(cr_dept_code, cr_course_no, PrerequisiteData);
 
 LOOP
   FETCH PrerequisiteData INTO rec;
   EXIT WHEN PrerequisiteData%NOTFOUND;
-  dbms_output.put_line(rec.preReqCourse_Code);
+  dbms_output.put_line( rec.Course_Count || rec.preReqCourse_Code || rec.isChecked);
 END LOOP;
 
 End;

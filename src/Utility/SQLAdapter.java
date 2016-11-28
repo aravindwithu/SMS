@@ -36,7 +36,8 @@ public class SQLAdapter {
 		  try
 		    {	        
 			  	conn.close();
-			  	ds = null;		        
+			  	conn = null;
+			  	ds = new oracle.jdbc.pool.OracleDataSource();		        
 		        System.out.println("Connection to SQL is closed."); 
 		    }
 		  catch(SQLException ex) { System.out.println ("\n*** SQLException caught ***\n" + ex.getMessage());}
@@ -270,14 +271,11 @@ public class SQLAdapter {
 		return resultList;
 	}
 	
-	
-	public ArrayList<Prerequisites> getPrerequisites(String dept_code, int course_no) throws InstantiationException,
+	private void initPreReqCourses(String dept_code, int course_no) throws InstantiationException,
 	IllegalAccessException, ClassNotFoundException {	
-	ArrayList<Prerequisites> resultList = new ArrayList<Prerequisites>();
-	ResultSet rset = null;
 	CallableStatement cs = null;	
 	try {	
-		String query = "begin getPrerequisiteCourses(?, ?, ?); end;";
+		String query = "{call initPreReqCourses(?, ?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}
@@ -288,40 +286,53 @@ public class SQLAdapter {
 	
 		cs = conn.prepareCall(query);
 		cs.setString(1, dept_code);
-		cs.setInt(2, course_no);		
+		cs.setInt(2, course_no);
+
+		// execute and retrieve the result set
+	    cs.executeUpdate();
+	    
+	    closeSQLConnection();
+	    
+		} catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+		}
+	}
+	
+	
+	public ArrayList<Prerequisites> getPrerequisites(String dept_code, int course_no) throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {	
+	ArrayList<Prerequisites> resultList = new ArrayList<Prerequisites>();
+	ResultSet rset = null;		
+	try {			
+		//this.initPreReqCourses(dept_code, course_no);
+		CallableStatement cs = null;
+		String query = "{call getPrerequisiteCourses(?,?,?)}";
+		if (conn == null) {
+			openSQLConnection();
+		}
+		else{
+			closeSQLConnection();
+			openSQLConnection();		
+		}
+	
+		cs = conn.prepareCall(query);	
+		cs.setString(1, dept_code);
+		cs.setInt(2, course_no);
 		cs.registerOutParameter(3, OracleTypes.CURSOR);
 
 		// execute and retrieve the result set
-		try{
-		
-		boolean a = cs.execute();
-		
-		while(a){
-			rset = (ResultSet)cs.getResultSet();
-			
-			while (rset.next()) {
-				Prerequisites preReq = new Prerequisites();
-				preReq.course_count = Integer.parseInt(rset.getString(1));	
-				preReq.course_code = rset.getString(2);	
-				resultList.add(preReq);			
-				}
-			rset.close();
-			a = cs.getMoreResults();
-			
-		}
-		
-		cs.close();
-		
-		
-		System.out.println(a);
-		conn.commit();}
-		catch(Exception e){
-			e.getMessage();
-		}
+		 cs.executeUpdate();		
+	
 		rset = (ResultSet)cs.getObject(3);
 		
-		
-		
+		while (rset.next()) {
+			Prerequisites preReq = new Prerequisites();
+			preReq.course_count = Integer.parseInt(rset.getString(1));	
+			preReq.course_code = rset.getString(2);	
+			resultList.add(preReq);			
+			}
+			
 		closeSQLConnection();
 	
 		} catch (SQLException e) {

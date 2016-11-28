@@ -1,33 +1,38 @@
-CREATE OR REPLACE FUNCTION fn_prerequisite_Check(
+CREATE OR REPLACE FUNCTION fn_prerequisite_Enroll(
    st_sid IN STUDENTS.SID%TYPE,
    cl_classid IN CLASSES.CLASSID%TYPE
 ) RETURN number 
-IS 
+IS
 Course_Code varchar2(12);
-preCourse_Code varchar2(12);
-tempCount number;
+loopIt number;
 isValid number;
 BEGIN  
- select dept_code || course_no INTO Course_Code from classes where classid = cl_classid;
- preCourse_Code := 'INIT';
- tempCount := 0;
-WHILE preCourse_Code != 'NA'
+ 
+  select dept_code || course_no INTO Course_Code from classes where classid = cl_classid;
+ 
+ INSERT INTO tempPrerequisites (Course_Count, preReqCourse_Code, isChecked)  
+   (SELECT Course_Count_Seq.nextval, pre_dept_code || pre_course_no, 0 FROM prerequisites 
+   WHERE (dept_code || course_no) in (Course_Code));   
+ loopIt := 0;
+WHILE loopIt = 0 
 LOOP  
-   preCourse_Code := fn_Get_PreRequisite(Course_Code); 
-   tempCount := tempCount+1;
-   insert into tempPrerequisites values (tempCount, Course_Code, preCourse_Code);
-   Course_Code := preCourse_Code;
-END LOOP;
-  
+   INSERT INTO tempPrerequisites (Course_Count, preReqCourse_Code, isChecked)   
+   SELECT Course_Count_Seq.nextval, pre_dept_code || pre_course_no, 0 FROM prerequisites 
+   WHERE (dept_code || course_no) in (select preReqCourse_Code from tempPrerequisites where isChecked != 1);   
+   update tempPrerequisites set isChecked = 1 where preReqCourse_Code in (select preReqCourse_Code from tempPrerequisites where isChecked != 1);   
+   loopIt := fn_Chk_LoopIt();   
+END LOOP; 
+
  select 0 INTO isValid 
- from tempPrerequisites tp join classes cl on tp.Course_Count = (cl.dept_code||cl.course_no) 
+ from tempPrerequisites tp join classes cl on tp.preReqCourse_Code = (cl.dept_code||cl.course_no) 
    join enrollments en on cl.classid  = en.classid
- where tp.Course_Count !=1 and en.lgrade >= 'D'
- order by tp.Course_Count asc; 
+ where en.sid = st_sid and en.classid = cl_classid;
  
- delete from tempPrerequisites; 
+  return isValid;
  
- exception
+ delete from tempPrerequisites;  
+ 
+  exception
         when no_data_found then return 1;
          delete from tempPrerequisites; 
      
