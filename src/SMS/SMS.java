@@ -130,8 +130,8 @@ public class SMS {
 		 //8.
 	     //System.out.println(sql.dropEnrollment("B001", "c0001"));
 	        
-	        
-	        
+	      //9  
+	        System.out.println(sql.deleteStudent("B001"));
 	        
 	    }	  
 	  catch(Exception e) {System.out.println ("\n*** other Exception caught ***\n" + e.getMessage());}

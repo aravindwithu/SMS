@@ -340,7 +340,34 @@ public class SQLAdapter {
 		} catch (SQLException e) {
 			System.out.println("SQL Exception occured!!\n\nDetails: "
 					+ e.getMessage());
-			result = "SQL Exception occured!!\n\nDetails: " + e.getMessage();
+		}
+
+		return result;
+	}
+	
+	public String deleteStudent(String stdIn) throws ClassNotFoundException {
+		String result = "";
+		CallableStatement cs = null;
+		try {
+			String query = "{call SMSPack.deleteStudents(?, ?)}";
+
+			if (conn == null) {
+				openSQLConnection();
+			}
+
+			cs = conn.prepareCall(query);
+			cs.setString(1, stdIn);
+			cs.registerOutParameter(2, java.sql.Types.VARCHAR);
+
+			// execute and retrieve the result set
+			cs.executeUpdate();
+			result = cs.getString(2);		
+			
+			closeSQLConnection();
+		
+		} catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
 		}
 
 		return result;
