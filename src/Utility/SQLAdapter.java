@@ -50,7 +50,7 @@ public class SQLAdapter {
 		ResultSet rset = null;
 		CallableStatement cs = null;
 		try {		
-			String query = "begin showStudents(?); end;";
+			String query = "begin SMSPack.showStudents(?); end;";
 				if (conn == null) {
 					openSQLConnection();
 				}	
@@ -93,7 +93,7 @@ public class SQLAdapter {
 		String result = "";
 		CallableStatement cs = null;
 		try {
-			String query = "{call insertStudents(?, ?, ?, ?, ?, ?)}";
+			String query = "{call SMSPack.insertStudents(?, ?, ?, ?, ?, ?)}";
 
 			if (conn == null) {
 				openSQLConnection();
@@ -129,7 +129,7 @@ public class SQLAdapter {
 		ArrayList<Classes> classList = new ArrayList<Classes>();
 		ResultSet classSet = null;
 		try {
-			String query = "{call getStudentAndClasses(?, ?, ?, ?, ?)}";
+			String query = "{call SMSPack.getStudentAndClasses(?, ?, ?, ?, ?)}";
 
 			if (conn == null) {
 				openSQLConnection();
@@ -186,7 +186,7 @@ public class SQLAdapter {
 		ArrayList<Students> studentList = new ArrayList<Students>();
 		ResultSet studentSet = null;
 		try {
-			String query = "{call getClassAndStudents(?, ?, ?, ?, ?, ?)}";
+			String query = "{call SMSPack.getClassAndStudents(?, ?, ?, ?, ?, ?)}";
 
 			if (conn == null) {
 				openSQLConnection();
@@ -307,7 +307,7 @@ public class SQLAdapter {
 	try {			
 		//this.initPreReqCourses(dept_code, course_no);
 		CallableStatement cs = null;
-		String query = "{call getPrerequisiteCourses(?,?,?)}";
+		String query = "{call SMSPack.getPrerequisiteCourses(?,?,?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}
@@ -347,7 +347,7 @@ public class SQLAdapter {
 	String result = "";
 	CallableStatement cs = null;	
 	try {	
-		String query = "{call enrollStudent(?, ?, ?)}";
+		String query = "{call SMSPack.enrollStudent(?, ?, ?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}
@@ -375,7 +375,7 @@ public class SQLAdapter {
 	String result = "";
 	CallableStatement cs = null;	
 	try {	
-		String query = "{call dropEnrollment(?, ?, ?)}";
+		String query = "{call SMSPack.dropEnrollment(?, ?, ?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}

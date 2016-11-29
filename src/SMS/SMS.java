@@ -15,7 +15,7 @@ public class SMS {
 	        	        
 	        //-----------------------------------------
 	        //--2.
-	        /*ArrayList<Students> resultList = new ArrayList<Students>();
+	       /*ArrayList<Students> resultList = new ArrayList<Students>();
 	        resultList = sql.getAllStudents();
 	       
 	        for(Students result : resultList){
@@ -26,11 +26,11 @@ public class SMS {
 	        //--3.
 	        /*Students std = new Students();
 	        std.sid = null;
-	        std.firstname = "ham";
-	        std.lastname = "bal";
+	        std.firstname = "hamL";
+	        std.lastname = "baKl";
 	        std.status = "freshman";
 	        std.gpa = 3.5;
-	        std.email = "bal@bu.edu";
+	        std.email = "baKl@bu.edu";
 	        
 	        String result = sql.insertStudent(std);
 	        System.out.print("The new B number is: " + result);*/
@@ -72,16 +72,16 @@ public class SMS {
 	        
 	        //-----------------------------------------------------------
 	        //6.
-	        /*
-	        readKeyBoard = new BufferedReader(new InputStreamReader(System.in)); 
+	        
+	        /*readKeyBoard = new BufferedReader(new InputStreamReader(System.in)); 
 	         String class_Id;
 	        System.out.print("Please Enter Class Id:");
-	        Class_Id = readKeyBoard.readLine();	        
+	         class_Id = readKeyBoard.readLine();	        
 	        System.out.println("Class Id is " + class_Id);
 	        
 	        ClassAndStudents clstResult = new ClassAndStudents();
 	        
-	        clstResult = sql.getClassAndStudents(Class_Id);
+	        clstResult = sql.getClassAndStudents(class_Id);
 	        
 		        if(clstResult.q_status == 1){
 		        System.out.println(clstResult.classInfo.classid + ", "+ clstResult.classInfo.title + ", "+ clstResult.classInfo.semester
@@ -90,7 +90,7 @@ public class SMS {
 		        	System.out.println(std.sid + ", "+ std.lastname);
 		        }
 	        }
-		        else{System.out.println("class not found");}*/    
+		        else{System.out.println("class not found");}*/
 	        
 	      //-----------------------------------------------------------
 	      //7.	      
@@ -98,7 +98,7 @@ public class SMS {
 	       
 	     //-----------------------------------------------------------
 		 //8.
-	     //System.out.println(sql.dropEnrollment("B001", "c0001"));
+	     System.out.println(sql.dropEnrollment("B001", "c0001"));
 	        
 	        
 	        

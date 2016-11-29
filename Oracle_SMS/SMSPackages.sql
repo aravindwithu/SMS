@@ -548,8 +548,9 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
   IS
   isValid number;
   BEGIN
-      select 0 INTO isValid from enrollments en where en.sid = st_sid;      
+      select 0 INTO isValid from enrollments en where en.sid = st_sid and rownum = 1;      
       return isValid;
+      
     exception
           when no_data_found then return 1;
   END;
