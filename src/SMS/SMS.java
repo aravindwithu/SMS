@@ -19,7 +19,37 @@ public class SMS {
 	        resultList = sql.getAllStudents();
 	       
 	        for(Students result : resultList){
-	        	System.out.println(result.sid);}*/
+	        	System.out.println(result.sid);}
+	        
+	        ArrayList<Courses> CoursesList = new ArrayList<Courses>();
+	        CoursesList = sql.getAllCourses();
+	       
+	        for(Courses result : CoursesList){
+	        	System.out.println(result.dept_code);}
+	        
+	        ArrayList<Prerequisites> PrerequisitesList = new ArrayList<Prerequisites>();
+	        PrerequisitesList = sql.getAllPrerequisites();
+	       
+	        for(Prerequisites result : PrerequisitesList){
+	        	System.out.println(result.pre_dept_code);}
+	        
+	        ArrayList<Classes> ClassesList = new ArrayList<Classes>();
+	        ClassesList = sql.getAllClasses();
+	       
+	        for(Classes result : ClassesList){
+	        	System.out.println(result.classid);}
+	        
+	        ArrayList<Enrollments> EnrollmentsList = new ArrayList<Enrollments>();
+	        EnrollmentsList = sql.getAllEnrollments();
+	       
+	        for(Enrollments result : EnrollmentsList){
+	        	System.out.println(result.sid);}
+	        
+	        ArrayList<Logs> LogsList = new ArrayList<Logs>();
+	        LogsList = sql.getAllLogs();
+	       
+	        for(Logs result : LogsList){
+	        	System.out.println(result.logid);}*/
 	        
 	        
 	        //------------------------------------------
@@ -98,7 +128,7 @@ public class SMS {
 	       
 	     //-----------------------------------------------------------
 		 //8.
-	     System.out.println(sql.dropEnrollment("B001", "c0001"));
+	     //System.out.println(sql.dropEnrollment("B001", "c0001"));
 	        
 	        
 	        

@@ -12,4 +12,5 @@ public class Classes{
 	public int year;
 	public String semester;
 	public int class_size;
+	public int limit;
 }

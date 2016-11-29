@@ -383,7 +383,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
     IS
     isValid number;
     BEGIN
-        select 1 INTO isValid from students where sid = st_sid;      
+        select 1 INTO isValid from students where sid = st_sid and rownum = 1;      
         return isValid;
       exception
             when no_data_found then return 0;
@@ -395,7 +395,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
     IS
     isValid number;
     BEGIN
-        select 1 INTO isValid from classes where classid = cl_classid;      
+        select 1 INTO isValid from classes where classid = cl_classid and rownum = 1;       
         return isValid;
       exception
             when no_data_found then return 0;
@@ -407,7 +407,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
   IS
   isValid number;
   BEGIN
-      select 1 INTO isValid from classes cl where cl.classid = cl_classid and cl.class_size <= cl.limit;      
+      select 1 INTO isValid from classes cl where cl.classid = cl_classid and cl.class_size <= cl.limit and rownum = 1;       
       return isValid;
     exception
           when no_data_found then return 0;
@@ -424,7 +424,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
       where classid in (select classid from enrollments where sid = st_sid) 
       and semester in (select semester from classes where classid = cl_classid) 
       and year in(select year from classes where classid = cl_classid)
-      group by  semester, year having Count(*)>=3;      
+      group by  semester, year having Count(*)>=3 and rownum = 1;       
       return isValid;   
       
     exception
@@ -442,7 +442,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
       where classid in (select classid from enrollments where sid = st_sid) 
       and semester in (select semester from classes where classid = cl_classid) 
       and year in(select year from classes where classid = cl_classid)
-      group by  semester, year having Count(*)>=2;      
+      group by  semester, year having Count(*)>=2 and rownum = 1;      
       return isValid;   
       
     exception
@@ -456,7 +456,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
   IS
   isValid number;
   BEGIN
-      select 0 INTO isValid from enrollments en where en.sid = st_sid and en.classid = cl_classid;      
+      select 0 INTO isValid from enrollments en where en.sid = st_sid and en.classid = cl_classid and rownum = 1;     
       return isValid;
     exception
           when no_data_found then return 1;
@@ -490,7 +490,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
      select 0 INTO isValid 
      from tempPrerequisites tp join classes cl on tp.preReqCourse_Code = (cl.dept_code||cl.course_no) 
        join enrollments en on cl.classid  = en.classid
-     where en.sid = st_sid and en.classid = cl.classid and en.lgrade <= 'D'
+     where en.sid = st_sid and en.classid = cl.classid and en.lgrade <= 'D' and rownum = 1
      order by tp.Course_Count asc; 
      
      return isValid;
@@ -530,7 +530,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
      select 0 INTO isValid 
      from tempPrerequisites tp join classes cl on tp.preReqCourse_Code = (cl.dept_code||cl.course_no) 
        join enrollments en on cl.classid  = en.classid
-     where en.sid = st_sid and en.classid = cl_classid;
+     where en.sid = st_sid and en.classid = cl_classid and rownum = 1; 
      
       return isValid;
      
@@ -561,7 +561,7 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
   IS
   isValid number;
   BEGIN
-      select 0 INTO isValid from enrollments en where en.classid = cl_classid;      
+      select 0 INTO isValid from enrollments en where en.classid = cl_classid and rownum = 1;     
       return isValid;
     exception
           when no_data_found then return 1;

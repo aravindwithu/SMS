@@ -89,6 +89,230 @@ public class SQLAdapter {
 		return resultList;
 	}
 	
+	public ArrayList<Courses> getAllCourses() throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {		
+		ArrayList<Courses> resultList = new ArrayList<Courses>();
+		ResultSet rset = null;
+		CallableStatement cs = null;
+		try {		
+			String query = "begin SMSPack.showCourses(?); end;";
+				if (conn == null) {
+					openSQLConnection();
+				}	
+				else{
+					closeSQLConnection();
+					openSQLConnection();
+				}
+				cs = conn.prepareCall(query);	
+				// register the out parameter (the first parameter)
+				cs.registerOutParameter(1, OracleTypes.CURSOR);		
+				// execute and retrieve the result set
+				cs.executeUpdate();	
+			    //rset = ((OracleCallableStatement)cs).getCursor(1);
+			    rset =(ResultSet) cs.getObject(1);
+			    if(rset != null){
+					while (rset.next()) {
+						Courses cr = new Courses();
+						cr.dept_code = rset.getString(1);
+						if(rset.getString(2)!=null){ 
+							cr.course_no = Integer.parseInt(rset.getString(2));
+						 } else{
+							 cr.course_no  = 0;};
+						cr.title = rset.getString(3);
+						resultList.add(cr);
+					}	
+			    }
+				closeSQLConnection();
+		}
+		catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+			}
+		return resultList;
+	}
+	
+	public ArrayList<Prerequisites> getAllPrerequisites() throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {		
+		ArrayList<Prerequisites> resultList = new ArrayList<Prerequisites>();
+		ResultSet rset = null;
+		CallableStatement cs = null;
+		try {		
+			String query = "{call SMSPack.showPrerequisites(?)}";
+				if (conn == null) {
+					openSQLConnection();
+				}	
+				else{
+					closeSQLConnection();
+					openSQLConnection();
+				}
+				cs = conn.prepareCall(query);	
+				// register the out parameter (the first parameter)
+				cs.registerOutParameter(1, OracleTypes.CURSOR);		
+				// execute and retrieve the result set
+				cs.executeUpdate();	
+			    //rset = ((OracleCallableStatement)cs).getCursor(1);
+			    rset =(ResultSet) cs.getObject(1);
+			    if(rset != null){
+					while (rset.next()) {
+						Prerequisites pr = new Prerequisites();
+						pr.dept_code = rset.getString(1);
+						if(rset.getString(2)!=null){ 
+							pr.course_no = Integer.parseInt(rset.getString(2));
+						 } else{
+							 pr.course_no  = 0;};
+						 pr.dept_code = rset.getString(3);
+						if(rset.getString(4)!=null){ 
+							pr.course_no = Integer.parseInt(rset.getString(4));
+						 } else{
+							 pr.course_no  = 0;};
+						resultList.add(pr);
+					}	
+			    }
+				closeSQLConnection();
+		}
+		catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+			}
+		return resultList;
+	}
+	
+	public ArrayList<Classes> getAllClasses() throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {		
+		ArrayList<Classes> resultList = new ArrayList<Classes>();
+		ResultSet rset = null;
+		CallableStatement cs = null;
+		try {		
+			String query = "{call SMSPack.showClasses(?)}";
+				if (conn == null) {
+					openSQLConnection();
+				}	
+				else{
+					closeSQLConnection();
+					openSQLConnection();
+				}
+				cs = conn.prepareCall(query);	
+				// register the out parameter (the first parameter)
+				cs.registerOutParameter(1, OracleTypes.CURSOR);		
+				// execute and retrieve the result set
+				cs.executeUpdate();	
+			    //rset = ((OracleCallableStatement)cs).getCursor(1);
+			    rset =(ResultSet) cs.getObject(1);
+			    if(rset != null){
+					while (rset.next()) {
+						Classes cl = new Classes();
+						cl.classid = rset.getString(1);
+						cl.dept_code = rset.getString(2);
+						if(rset.getString(3)!=null){ 
+							cl.course_no = Integer.parseInt(rset.getString(3));
+						 } else{
+							 cl.course_no  = 0;};
+						if(rset.getString(4)!=null){ 
+							cl.sect_no= Integer.parseInt(rset.getString(4));
+						 } else{
+							 cl.sect_no  = 0;};
+						cl.semester = rset.getString(5);
+						if(rset.getString(6)!=null){ 
+							cl.limit = Integer.parseInt(rset.getString(6));
+						 } else{
+							 cl.limit  = 0;};
+						if(rset.getString(7)!=null){ 
+							cl.class_size = Integer.parseInt(rset.getString(7));
+						 } else{
+							 cl.class_size = 0;};
+						resultList.add(cl);
+					}	
+			    }
+				closeSQLConnection();
+		}
+		catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+			}
+		return resultList;
+	}
+	
+	public ArrayList<Enrollments> getAllEnrollments() throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {		
+		ArrayList<Enrollments> resultList = new ArrayList<Enrollments>();
+		ResultSet rset = null;
+		CallableStatement cs = null;
+		try {		
+			String query = "{call SMSPack.showEnrollments(?)}";
+				if (conn == null) {
+					openSQLConnection();
+				}	
+				else{
+					closeSQLConnection();
+					openSQLConnection();
+				}
+				cs = conn.prepareCall(query);	
+				// register the out parameter (the first parameter)
+				cs.registerOutParameter(1, OracleTypes.CURSOR);		
+				// execute and retrieve the result set
+				cs.executeUpdate();	
+			    //rset = ((OracleCallableStatement)cs).getCursor(1);
+			    rset =(ResultSet) cs.getObject(1);
+			    if(rset != null){
+					while (rset.next()) {
+						Enrollments en = new Enrollments();
+						en.sid = rset.getString(1);
+						en.classid = rset.getString(2);
+						en.lgrade = rset.getString(3);
+						resultList.add(en);
+					}	
+			    }
+				closeSQLConnection();
+		}
+		catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+			}
+		return resultList;
+	}
+	
+	public ArrayList<Logs> getAllLogs() throws InstantiationException,
+	IllegalAccessException, ClassNotFoundException {	
+	ArrayList<Logs> resultList = new ArrayList<Logs>();
+	ResultSet rset = null;
+	CallableStatement cs = null;
+	try {
+		String query = "{call SMSPack.showLogs(?)}";
+		if (conn == null) {
+			openSQLConnection();
+		}
+		
+		cs = conn.prepareCall(query);
+		cs = conn.prepareCall(query);	
+		// register the out parameter (the first parameter)
+		cs.registerOutParameter(1, OracleTypes.CURSOR);		
+		// execute and retrieve the result set
+		cs.executeUpdate();	
+	    //rset = ((OracleCallableStatement)cs).getCursor(1);
+	    rset =(ResultSet) cs.getObject(1);
+		while (rset.next()) {
+			Logs log = new Logs();
+			if(cs.getString(1)!=null){
+				log.logid = Integer.parseInt(cs.getString(1));
+				}else{
+					log.logid = 0;
+			}			
+			log.who = cs.getString(2);
+			log.time = cs.getString(3);
+			log.table_name = cs.getString(4);
+			log.operation = cs.getString(5);
+			log.key_value = cs.getString(6);
+			resultList.add(log);
+			}
+		closeSQLConnection();
+	
+		} catch (SQLException e) {
+			System.out.println("SQL Exception occured!!\n\nDetails: "
+					+ e.getMessage());
+		}
+		return resultList;
+	}
+	
 	public String insertStudent(Students stdIn) throws ClassNotFoundException {
 		String result = "";
 		CallableStatement cs = null;
@@ -233,43 +457,7 @@ public class SQLAdapter {
 		return clstResult;
 	}
 	
-	public ArrayList<Logs> getLogs() throws InstantiationException,
-	IllegalAccessException, ClassNotFoundException {
 	
-	ArrayList<Logs> resultList = new ArrayList<Logs>();
-	ResultSet rset = null;
-	
-	try {
-	
-		if (conn == null) {
-			openSQLConnection();
-		}
-	
-		Statement stmt = conn.createStatement();
-		// execute and retrieve the result set
-		rset = (ResultSet) stmt.executeQuery("Select * from logs");
-		while (rset.next()) {
-			Logs log = new Logs();
-			if(rset.getString(1)!=null){
-				log.logid = Integer.parseInt(rset.getString(1));
-				}else{
-					log.logid = 0;
-			}			
-			log.who = rset.getString(2);
-			log.time = rset.getString(3);
-			log.table_name = rset.getString(4);
-			log.operation = rset.getString(5);
-			log.key_value = rset.getString(6);
-			resultList.add(log);
-			}
-		closeSQLConnection();
-	
-		} catch (SQLException e) {
-			System.out.println("SQL Exception occured!!\n\nDetails: "
-					+ e.getMessage());
-		}
-		return resultList;
-	}
 	
 	/*private void initPreReqCourses(String dept_code, int course_no) throws InstantiationException,
 	IllegalAccessException, ClassNotFoundException {	
