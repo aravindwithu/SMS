@@ -271,7 +271,7 @@ public class SQLAdapter {
 		return resultList;
 	}
 	
-	private void initPreReqCourses(String dept_code, int course_no) throws InstantiationException,
+	/*private void initPreReqCourses(String dept_code, int course_no) throws InstantiationException,
 	IllegalAccessException, ClassNotFoundException {	
 	CallableStatement cs = null;	
 	try {	
@@ -297,7 +297,7 @@ public class SQLAdapter {
 			System.out.println("SQL Exception occured!!\n\nDetails: "
 					+ e.getMessage());
 		}
-	}
+	}*/
 	
 	
 	public ArrayList<Prerequisites> getPrerequisites(String dept_code, int course_no) throws InstantiationException,
@@ -347,7 +347,7 @@ public class SQLAdapter {
 	String result = "";
 	CallableStatement cs = null;	
 	try {	
-		String query = "{call enroll_Student(?, ?, ?)}";
+		String query = "{call enrollStudent(?, ?, ?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}
@@ -375,7 +375,7 @@ public class SQLAdapter {
 	String result = "";
 	CallableStatement cs = null;	
 	try {	
-		String query = "{call drop_Enrollment(?, ?, ?)}";
+		String query = "{call dropEnrollment(?, ?, ?)}";
 		if (conn == null) {
 			openSQLConnection();
 		}
@@ -396,8 +396,6 @@ public class SQLAdapter {
 					+ e.getMessage());
 		}
 		return result;	
-	}
-	
-	
+	}	
 	
 }
