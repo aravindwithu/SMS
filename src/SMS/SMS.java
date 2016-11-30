@@ -215,10 +215,13 @@ public class SMS {
                 	 String lastname = in.nextLine();
                 	 std.lastname = lastname;
                 	 
-                	 System.out.println("status: ");
-                	 String status = in.nextLine();
+                	 
                 	 
                 	 while(true){
+                		 
+                		 System.out.println("status: ");
+                    	 String status = in.nextLine();
+                		 
                 	 if(status == "freshman" || status == "sophomore" || status == "junior" || status == "senior" || status == "graduate")
                 	 {
                 	 std.status = status;
@@ -419,11 +422,12 @@ public class SMS {
                 	 System.out.println("dept code: ");
              	 	String dept_code = in.nextLine();
              	 	
-             	 	 System.out.println("course no: ");
-              	 	int course_no = 0;
+             	 	 
                 	
               	 	while(true)
               	 	{
+              	 		System.out.println("course no: ");
+                  	 	int course_no = 0;
               	 	try{
               	 		course_no = Integer.parseInt(in.nextLine());
               	 		break;
