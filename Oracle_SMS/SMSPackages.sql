@@ -385,21 +385,19 @@ CREATE OR REPLACE PACKAGE BODY SMSPack IS
    v_sid IN STUDENTS.SID%TYPE,
    status_log OUT VARCHAR2
     ) IS 
-    isValid number;
-    
+    isValid number;    
     BEGIN  
-      --If the student is not in the students table, report “The sid is invalid".
      isValid := 0;
      isValid := fn_Validate_Student(v_sid); 
      if(isValid = 0)then
-        status_log := 'failed-'||'The classid is invalid.'; 
+        status_log := 'failed-The sid is invalid.'; 
       End if;
 
- if(isValid = 1) then
-    delete from students where sid = v_sid;
-    status_log := 'Success-'||'The student is deleted succesfully.';
-  End if;
-END;
+     if(isValid = 1) then
+        delete from students where sid = v_sid;
+        status_log := 'Success-The student is deleted succesfully.';
+      End if;
+    END;
 
     
     FUNCTION fn_Validate_Student
@@ -407,8 +405,8 @@ END;
      RETURN number
     IS
     isValid number;
-    BEGIN
-        select 1 INTO isValid from students where sid = st_sid and rownum = 1;      
+    BEGIN  
+        select 1 INTO isValid from students where sid = st_sid;      
         return isValid;
       exception
             when no_data_found then return 0;
@@ -420,7 +418,7 @@ END;
     IS
     isValid number;
     BEGIN
-        select 1 INTO isValid from classes where classid = cl_classid and rownum = 1;       
+        select 1 INTO isValid from classes where classid = cl_classid;       
         return isValid;
       exception
             when no_data_found then return 0;
@@ -432,7 +430,7 @@ END;
   IS
   isValid number;
   BEGIN
-      select 1 INTO isValid from classes cl where cl.classid = cl_classid and cl.class_size <= cl.limit and rownum = 1;       
+      select 1 INTO isValid from classes cl where cl.classid = cl_classid and cl.class_size <= cl.limit;     
       return isValid;
     exception
           when no_data_found then return 0;
@@ -448,8 +446,8 @@ END;
       select 0 INTO isValid from classes 
       where classid in (select classid from enrollments where sid = st_sid) 
       and semester in (select semester from classes where classid = cl_classid) 
-      and year in(select year from classes where classid = cl_classid)
-      group by  semester, year having Count(*)>=3 and rownum = 1;       
+      and year in(select year from classes where classid = cl_classid) and rownum = 1
+      group by  semester, year having Count(*)>=3;        
       return isValid;   
       
     exception
@@ -466,8 +464,8 @@ END;
       select 0 INTO isValid from classes 
       where classid in (select classid from enrollments where sid = st_sid) 
       and semester in (select semester from classes where classid = cl_classid) 
-      and year in(select year from classes where classid = cl_classid)
-      group by  semester, year having Count(*)>=2 and rownum = 1;      
+      and year in(select year from classes where classid = cl_classid) and rownum = 1 
+      group by  semester, year having Count(*)>=2;      
       return isValid;   
       
     exception
@@ -481,7 +479,7 @@ END;
   IS
   isValid number;
   BEGIN
-      select 0 INTO isValid from enrollments en where en.sid = st_sid and en.classid = cl_classid and rownum = 1;     
+      select 0 INTO isValid from enrollments en where en.sid = st_sid and en.classid = cl_classid;  
       return isValid;
     exception
           when no_data_found then return 1;

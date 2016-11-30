@@ -160,11 +160,11 @@ public class SQLAdapter {
 							pr.course_no = Integer.parseInt(rset.getString(2));
 						 } else{
 							 pr.course_no  = 0;};
-						 pr.dept_code = rset.getString(3);
+						 pr.pre_dept_code = rset.getString(3);
 						if(rset.getString(4)!=null){ 
-							pr.course_no = Integer.parseInt(rset.getString(4));
+							pr.pre_course_no = Integer.parseInt(rset.getString(4));
 						 } else{
-							 pr.course_no  = 0;};
+							 pr.pre_course_no  = 0;};
 						resultList.add(pr);
 					}	
 			    }
@@ -211,13 +211,17 @@ public class SQLAdapter {
 							cl.sect_no= Integer.parseInt(rset.getString(4));
 						 } else{
 							 cl.sect_no  = 0;};
-						cl.semester = rset.getString(5);
-						if(rset.getString(6)!=null){ 
-							cl.limit = Integer.parseInt(rset.getString(6));
+						 if(rset.getString(5)!=null){ 
+								cl.year = Integer.parseInt(rset.getString(5));
+							 } else{
+								 cl.year  = 0;};							 
+						cl.semester = rset.getString(6);	
+						if(rset.getString(7)!=null){ 
+							cl.limit = Integer.parseInt(rset.getString(7));
 						 } else{
 							 cl.limit  = 0;};
-						if(rset.getString(7)!=null){ 
-							cl.class_size = Integer.parseInt(rset.getString(7));
+						if(rset.getString(8)!=null){ 
+							cl.class_size = Integer.parseInt(rset.getString(8));
 						 } else{
 							 cl.class_size = 0;};
 						resultList.add(cl);
@@ -276,32 +280,35 @@ public class SQLAdapter {
 	ArrayList<Logs> resultList = new ArrayList<Logs>();
 	ResultSet rset = null;
 	CallableStatement cs = null;
-	try {
+	try {		
 		String query = "{call SMSPack.showLogs(?)}";
-		if (conn == null) {
-			openSQLConnection();
-		}
-		
-		cs = conn.prepareCall(query);
-		cs = conn.prepareCall(query);	
-		// register the out parameter (the first parameter)
-		cs.registerOutParameter(1, OracleTypes.CURSOR);		
-		// execute and retrieve the result set
-		cs.executeUpdate();	
-	    //rset = ((OracleCallableStatement)cs).getCursor(1);
-	    rset =(ResultSet) cs.getObject(1);
+			if (conn == null) {
+				openSQLConnection();
+			}	
+			else{
+				closeSQLConnection();
+				openSQLConnection();
+			}
+			cs = conn.prepareCall(query);	
+			// register the out parameter (the first parameter)
+			cs.registerOutParameter(1, OracleTypes.CURSOR);		
+			// execute and retrieve the result set
+			cs.executeUpdate();	
+		    //rset = ((OracleCallableStatement)cs).getCursor(1);
+		    rset =(ResultSet) cs.getObject(1);
+		    
 		while (rset.next()) {
 			Logs log = new Logs();
-			if(cs.getString(1)!=null){
-				log.logid = Integer.parseInt(cs.getString(1));
+			if(rset.getString(1)!=null){
+				log.logid = Integer.parseInt(rset.getString(1));
 				}else{
 					log.logid = 0;
 			}			
-			log.who = cs.getString(2);
-			log.time = cs.getString(3);
-			log.table_name = cs.getString(4);
-			log.operation = cs.getString(5);
-			log.key_value = cs.getString(6);
+			log.who = rset.getString(2);
+			log.time = rset.getString(3);
+			log.table_name = rset.getString(4);
+			log.operation = rset.getString(5);
+			log.key_value = rset.getString(6);
 			resultList.add(log);
 			}
 		closeSQLConnection();
@@ -312,6 +319,7 @@ public class SQLAdapter {
 		}
 		return resultList;
 	}
+
 	
 	public String insertStudent(Students stdIn) throws ClassNotFoundException {
 		String result = "";
