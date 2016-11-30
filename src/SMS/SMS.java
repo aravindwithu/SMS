@@ -11,26 +11,6 @@ public class SMS {
 	  try
 	    {
 		    SQLAdapter sql= new SQLAdapter();
-	       
-		    /*BufferedReader  readKeyBoard; 	        
-	        while (true) {
-	            System.out.println("\n\n------- STUDENT MANAGEMENT SYSTEM  -------");
-	            System.out.println("Select the Operation to perform:");
-	            System.out.println(" " +
-	                "- (1) Show Tables\n " +
-	                "- (2) Insert Student \n " +
-	                "- (3) Delete Student\n " +
-	                "- (4) Enroll Student\n " +
-	                "- (5) Un-Enroll Student\n " +
-	                "- (6) Get Student and Class\n " +
-	                "- (7) Get Class and Students\n" +
-	                "- (e) Exit \n");
-	            System.out.println("-------------------------------------------");
-	            System.out.print("\nYour Selection >> ");
-	            
-	        }*/
-	        
-	        
 	        
 		    boolean loop1 = true;
 	        Scanner in = new Scanner(System.in);
@@ -422,12 +402,12 @@ public class SMS {
                 	 System.out.println("dept code: ");
              	 	String dept_code = in.nextLine();
              	 	
-             	 	 
+             	 	System.out.println("course no: ");
+              	 	int course_no = 0;
                 	
               	 	while(true)
               	 	{
-              	 		System.out.println("course no: ");
-                  	 	int course_no = 0;
+              	 		
               	 	try{
               	 		course_no = Integer.parseInt(in.nextLine());
               	 		break;
